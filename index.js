@@ -65,7 +65,7 @@ let data =  JSON.parse(localStorage.getItem("newTweetsData"))
 if(data){
 
     for(let i = 0; i < data.length; i++){
-        newTweetArray.push(data[i])
+        newTweetArray.unshift(data[i])
     }
 }
 
