@@ -15,11 +15,17 @@ document.addEventListener('click', function(e){
     else if(e.target.dataset.reply){
         handleReplyClick(e.target.dataset.reply)
     }
+    // else if(e.target.id === 'my-tweet'){
+    else if(e.target.dataset.delete){
+        handleDeleteClick(e.target.dataset.delete)
+    }
     else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
     }
 })
  
+
+
 function handleLikeClick(tweetId){ 
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === tweetId
@@ -34,6 +40,7 @@ function handleLikeClick(tweetId){
     targetTweetObj.isLiked = !targetTweetObj.isLiked
     render()
 }
+
 
 function handleRetweetClick(tweetId){
     const targetTweetObj = tweetsData.filter(function(tweet){
@@ -50,6 +57,8 @@ function handleRetweetClick(tweetId){
     render() 
 }
 
+
+
 function handleReplyClick(replyId){
     document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
 }
@@ -60,39 +69,34 @@ function handleReplyClick(replyId){
 
 let newTweetArray =[]
 let data =  JSON.parse(localStorage.getItem("newTweetsData"))
-// console.log(data)
 
 if(data){
-
     for(let i = 0; i < data.length; i++){
+        // console.log(`DATA : ${data[i]}`)
         newTweetArray.unshift(data[i])
     }
 }
 
-// console.log(tweetsData)
-for(let i = 0; i < newTweetArray.length;  i++){
 
+for(let i = 0; i < newTweetArray.length;  i++){
     tweetsData.unshift(newTweetArray[i])
 
 }
-
-
-
 
 
 function handleTweetBtnClick(){
     const tweetInput = document.getElementById('tweet-input')
     
     let newTweetObject = {
-        handle: `@Scrimba`,
-        profilePic: `images/scrimbalogo.png`,
+        handle: `@Sobit`,
+        profilePic: `images/sobitlogo.jpg`,
         likes: 0,
         retweets: 0,
         tweetText: tweetInput.value,
         replies: [],
         isLiked: false,
         isRetweeted: false,
-        uuid: uuidv4()
+        uuid: uuidv4(),
     }
 
 
@@ -103,12 +107,29 @@ function handleTweetBtnClick(){
     
 
     localStorage.setItem('newTweetsData', JSON.stringify(newTweetArray))
-
     render()
+    console.log(newTweetArray)
+    console.log(newTweetArray);
     tweetInput.value = ''
 }
 
 
+
+function handleDeleteClick(dataId){
+    console.log(data)
+    
+    const index = tweetsData.findIndex(tweet => tweet.uuid === dataId);
+    console.log(index)
+
+    tweetsData.splice(index, 1)
+    newTweetArray.splice(index, 1)
+    localStorage.removeItem("newTweetsData");
+    localStorage.setItem('newTweetsData', JSON.stringify(newTweetArray))
+
+    console.log(newTweetArray)
+    console.log(tweetsData)
+    render()
+}
 
 
 
@@ -154,7 +175,7 @@ function getFeedHtml(){
     <div class="tweet-inner">
         <img src="${tweet.profilePic}" class="profile-pic">
         <div>
-            <p class="handle">${tweet.handle}</p>
+            <p class="handle">${tweet.handle} ${tweet.handle === '@Sobit' ? `<span class="material-symbols-outlined" id="my-tweet" data-delete="${tweet.uuid}">delete</span>` : ''}</p>
             <p class="tweet-text">${tweet.tweetText}</p>
             <div class="tweet-details">
                 <span class="tweet-detail">
@@ -189,9 +210,14 @@ function getFeedHtml(){
 
 
 
+
+
 function render(){
     document.getElementById('feed').innerHTML = getFeedHtml()
 }
 
-render()
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    render()
+})
 

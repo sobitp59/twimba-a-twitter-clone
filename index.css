@@ -109,7 +109,11 @@ button{
     font-size: 12px;
     font-weight: 500;
     color: #555;
-    margin-top: 0;
+    /* margin-top: 0; */
+    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .tweet-text{
@@ -129,4 +133,12 @@ button{
 /* utility */
 .hidden{
     display: none;
+}
+
+/* ICONS */
+.material-symbols-outlined{
+    font-size: 16px;
+}
+.material-symbols-outlined:hover{
+    cursor: pointer;
 }
