@@ -1,0 +1,19 @@
+{
+  "name": "twimba---a-twitter-clone",
+  "version": "1.0.0",
+  "description": "a twiiter clone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sobitp59/twimba-a-twitter-clone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sobitp59/twimba-a-twitter-clone/issues"
+  },
+  "homepage": "https://github.com/sobitp59/twimba-a-twitter-clone#readme"
+}

@@ -2,138 +2,6 @@ import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 import { tweetsData } from './data.mjs'
 
 
-
-
-
-document.addEventListener('click', function(e){
-    if(e.target.dataset.like){
-       handleLikeClick(e.target.dataset.like) 
-    }
-    else if(e.target.dataset.retweet){
-        handleRetweetClick(e.target.dataset.retweet)
-    }
-    else if(e.target.dataset.reply){
-        handleReplyClick(e.target.dataset.reply)
-    }
-    // else if(e.target.id === 'my-tweet'){
-    else if(e.target.dataset.delete){
-        handleDeleteClick(e.target.dataset.delete)
-    }
-    else if(e.target.id === 'tweet-btn'){
-        handleTweetBtnClick()
-    }
-})
- 
-
-
-function handleLikeClick(tweetId){ 
-    const targetTweetObj = tweetsData.filter(function(tweet){
-        return tweet.uuid === tweetId
-    })[0]
-
-    if (targetTweetObj.isLiked){
-        targetTweetObj.likes--
-    }
-    else{
-        targetTweetObj.likes++ 
-    }
-    targetTweetObj.isLiked = !targetTweetObj.isLiked
-    render()
-}
-
-
-function handleRetweetClick(tweetId){
-    const targetTweetObj = tweetsData.filter(function(tweet){
-        return tweet.uuid === tweetId
-    })[0]
-    
-    if(targetTweetObj.isRetweeted){
-        targetTweetObj.retweets--
-    }
-    else{
-        targetTweetObj.retweets++
-    }
-    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
-    render() 
-}
-
-
-
-function handleReplyClick(replyId){
-    document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
-}
-
-
-
-
-
-let newTweetArray =[]
-let data =  JSON.parse(localStorage.getItem("newTweetsData"))
-
-if(data){
-    for(let i = 0; i < data.length; i++){
-        // console.log(`DATA : ${data[i]}`)
-        newTweetArray.unshift(data[i])
-    }
-}
-
-
-for(let i = 0; i < newTweetArray.length;  i++){
-    tweetsData.unshift(newTweetArray[i])
-
-}
-
-
-function handleTweetBtnClick(){
-    const tweetInput = document.getElementById('tweet-input')
-    
-    let newTweetObject = {
-        handle: `@Sobit`,
-        profilePic: `images/sobitlogo.jpg`,
-        likes: 0,
-        retweets: 0,
-        tweetText: tweetInput.value,
-        replies: [],
-        isLiked: false,
-        isRetweeted: false,
-        uuid: uuidv4(),
-    }
-
-
-    if(tweetInput.value) {
-        tweetsData.unshift(newTweetObject)
-        newTweetArray.unshift(newTweetObject)
-    }
-    
-
-    localStorage.setItem('newTweetsData', JSON.stringify(newTweetArray))
-    render()
-    console.log(newTweetArray)
-    console.log(newTweetArray);
-    tweetInput.value = ''
-}
-
-
-
-function handleDeleteClick(dataId){
-    console.log(data)
-    
-    const index = tweetsData.findIndex(tweet => tweet.uuid === dataId);
-    console.log(index)
-
-    tweetsData.splice(index, 1)
-    newTweetArray.splice(index, 1)
-    localStorage.removeItem("newTweetsData");
-    localStorage.setItem('newTweetsData', JSON.stringify(newTweetArray))
-
-    console.log(newTweetArray)
-    console.log(tweetsData)
-    render()
-}
-
-
-
-
 function getFeedHtml(){
     let feedHtml = ``
     
@@ -208,16 +76,136 @@ function getFeedHtml(){
    return feedHtml 
 }
 
-
-
-
-
 function render(){
-    document.getElementById('feed').innerHTML = getFeedHtml()
+    let feedData = getFeedHtml()
+    document.getElementById('feed').innerHTML = feedData
+}
+
+render()
+
+
+function handleLikeClick(tweetId){ 
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+    })[0]
+
+    if (targetTweetObj.isLiked){
+        targetTweetObj.likes--
+    }
+    else{
+        targetTweetObj.likes++ 
+    }
+    targetTweetObj.isLiked = !targetTweetObj.isLiked
+    render()
 }
 
 
-document.addEventListener('DOMContentLoaded', ()=>{
+function handleRetweetClick(tweetId){
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+    })[0]
+    
+    if(targetTweetObj.isRetweeted){
+        targetTweetObj.retweets--
+    }
+    else{
+        targetTweetObj.retweets++
+    }
+    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
+    render() 
+}
+
+
+
+function handleReplyClick(replyId){
+    document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
+}
+
+
+
+
+
+
+let newTweetObjects = JSON.parse(localStorage.getItem("newTweetsData")) || []
+newTweetObjects.map((item) => {
+    tweetsData.unshift(item)
+    console.log(tweetsData)
     render()
 })
 
+
+
+function handleTweetBtnClick(){
+    const tweetInput = document.getElementById('tweet-input')
+    
+    let newTweetObject = {
+        handle: `@Sobit`,
+        profilePic: `images/sobitlogo.jpg`,
+        likes: 0,
+        retweets: 0,
+        tweetText: tweetInput.value,
+        replies: [],
+        isLiked: false,
+        isRetweeted: false,
+        uuid: uuidv4(),
+    }
+
+   
+
+    if(tweetInput.value) {
+        tweetsData.unshift(newTweetObject)
+        newTweetObjects.push(newTweetObject)
+    }
+    
+    localStorage.setItem('newTweetsData', JSON.stringify(newTweetObjects))
+    
+    
+    tweetInput.value = ''
+
+    // localTweets()
+    render()
+}
+
+
+function handleDeleteClick(dataId){
+    
+    // const index = tweetsData.findIndex(tweet => tweet.uuid === dataId);
+    // console.log(index)
+
+    // tweetsData.splice(index, 1)
+    // newTweetArray.splice(index, 1)
+    // localStorage.removeItem("newTweetsData");
+    // localStorage.setItem('newTweetsData', JSON.stringify(newTweetArray))
+
+    // console.log(newTweetArray)
+    // console.log(tweetsData)
+    // render()
+}
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    document.addEventListener('click', function(e){
+        if(e.target.dataset.like){
+           handleLikeClick(e.target.dataset.like) 
+        }
+        else if(e.target.dataset.retweet){
+            handleRetweetClick(e.target.dataset.retweet)
+        }
+        else if(e.target.dataset.reply){
+            handleReplyClick(e.target.dataset.reply)
+        }
+        // else if(e.target.id === 'my-tweet'){
+        else if(e.target.dataset.delete){
+            handleDeleteClick(e.target.dataset.delete)
+        }
+        else if(e.target.id === 'tweet-btn'){
+            handleTweetBtnClick()
+        }
+    })
+     
+})
