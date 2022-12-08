@@ -48,9 +48,7 @@ function getFeedHtml(){
                 <p class="handle">${tweet.handle}<span class="material-symbols-outlined verified">
                 verified
                 </span></p>
-                <p>
-                    ${tweet.handle === '@Sobit' ? `<span class="material-symbols-outlined delete-btn" id="my-tweet" data-delete="${tweet.uuid}">delete</span>` : ''}
-                </p>
+               
             </div>
             
             <p class="tweet-text">${tweet.tweetText}</p>
@@ -82,6 +80,10 @@ function getFeedHtml(){
 </div>
 `
    })
+ // <p>
+                //     ${tweet.handle === '@Sobit' ? `<span class="material-symbols-outlined delete-btn" id="my-tweet" data-delete="${tweet.uuid}">delete</span>` : ''}
+                // </p>
+
    return feedHtml 
 }
 
@@ -211,12 +213,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
             handleReplyClick(e.target.dataset.reply)
         }
         // else if(e.target.id === 'my-tweet'){
-        else if(e.target.dataset.delete){
-            handleDeleteClick(e.target.dataset.delete)
-        }
-        // else if(e.target.id === 'tweet-btn'){
-        //     handleTweetBtnClick()
+        // else if(e.target.dataset.delete){
+        //     handleDeleteClick(e.target.dataset.delete)
         // }
+        else if(e.target.id === 'tweet-btn'){
+            handleTweetBtnClick()
+        }
     })
      
 })
