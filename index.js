@@ -42,8 +42,17 @@ function getFeedHtml(){
 <div class="tweet">
     <div class="tweet-inner">
         <img src="${tweet.profilePic}" class="profile-pic">
+        
         <div>
-            <p class="handle">${tweet.handle} ${tweet.handle === '@Sobit' ? `<span class="material-symbols-outlined" id="my-tweet" data-delete="${tweet.uuid}">delete</span>` : ''}</p>
+            <div class="user">
+                <p class="handle">${tweet.handle}<span class="material-symbols-outlined verified">
+                verified
+                </span></p>
+                <p>
+                    ${tweet.handle === '@Sobit' ? `<span class="material-symbols-outlined delete-btn" id="my-tweet" data-delete="${tweet.uuid}">delete</span>` : ''}
+                </p>
+            </div>
+            
             <p class="tweet-text">${tweet.tweetText}</p>
             <div class="tweet-details">
                 <span class="tweet-detail">
@@ -75,6 +84,7 @@ function getFeedHtml(){
    })
    return feedHtml 
 }
+
 
 function render(){
     let feedData = getFeedHtml()
@@ -167,22 +177,23 @@ function handleTweetBtnClick(){
 }
 
 
-function handleDeleteClick(dataId){
+
+// function handleDeleteClick(dataId){
+   
     
-    // const index = tweetsData.findIndex(tweet => tweet.uuid === dataId);
-    // console.log(index)
+//     const index = tweetsData.findIndex(tweet => tweet.uuid === dataId);
+//     console.log(index)
 
-    // tweetsData.splice(index, 1)
-    // newTweetArray.splice(index, 1)
-    // localStorage.removeItem("newTweetsData");
-    // localStorage.setItem('newTweetsData', JSON.stringify(newTweetArray))
+//     for(let tweet of newTweetObjects){
+//         if(tweet.uuid === dataId){
+//            localStorage.removeItem(tweet)
+//         }
+//     }
+//     render()
 
-    // console.log(newTweetArray)
-    // console.log(tweetsData)
-    // render()
-}
+//     console.log(tweetsData[index])
 
-
+// }
 
 
 
@@ -203,9 +214,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         else if(e.target.dataset.delete){
             handleDeleteClick(e.target.dataset.delete)
         }
-        else if(e.target.id === 'tweet-btn'){
-            handleTweetBtnClick()
-        }
+        // else if(e.target.id === 'tweet-btn'){
+        //     handleTweetBtnClick()
+        // }
     })
      
 })

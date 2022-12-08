@@ -1,8 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
-}
+    font-family: 'Satoshi', sans-serif;}
 
 /* typography and icons */
 
@@ -106,14 +105,21 @@ button{
 }
 
 .handle{
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 500;
     color: #555;
     /* margin-top: 0; */
     display: inline-block;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
+    gap: 3px;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .tweet-text{
@@ -136,9 +142,11 @@ button{
 }
 
 /* ICONS */
-.material-symbols-outlined{
-    font-size: 16px;
-}
-.material-symbols-outlined:hover{
+
+
+#my-tweet{
     cursor: pointer;
+} 
+.verified{
+    color: #1DA1F2;
 }
